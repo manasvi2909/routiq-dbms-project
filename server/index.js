@@ -13,7 +13,8 @@ const reminderService = require('./services/reminderService');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5600;
+app.listen(PORT, () => console.log(`Server started on ${PORT}`));
 
 // Middleware
 app.use(cors());
@@ -39,7 +40,35 @@ app.get('/api/health', (req, res) => {
 // Start reminder service
 reminderService.start();
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// --- robust listen block (replace existing app.listen(...) block) ---
+const startServer = (port) => {
+  console.log('Attempting to listen on', port);
+  const server = app.listen(port, '127.0.0.1', () => {
+    console.log(`Server started on ${port}`);
+  });
 
+  server.on('error', (err) => {
+    console.error('Server listen error:', err && err.code ? err.code : err);
+    if (err && err.code === 'EADDRINUSE') {
+      console.warn(`Port ${port} in use — trying ${port + 1}...`);
+      // small delay then try next port to avoid fast loop
+      setTimeout(() => startServer(port + 1), 200);
+    } else {
+      console.error('Fatal server error:', err);
+      process.exit(1);
+    }
+  });
+
+  // optional: log active handles count to detect duplicate servers
+  setTimeout(() => {
+    try {
+      // non-standard but helpful in dev
+      const handles = process._getActiveHandles ? process._getActiveHandles().length : 'n/a';
+      console.log('Active handles count (approx):', handles);
+    } catch (e) { /* ignore */ }
+  }, 500);
+};
+
+// start trying from env PORT or 5600
+const initialPort = process.env.PORT ? Number(process.env.PORT) : 5600;
+startServer(initialPort);
