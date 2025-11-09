@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Target, 
   TrendingUp, 
   BarChart3, 
   Sparkles, 
-  CheckCircle2,
   ArrowRight,
   Leaf,
   Calendar,
@@ -14,48 +13,106 @@ import {
 import './Landing.css';
 
 function Landing() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="landing-page">
+      {/* Forest Background with Parallax */}
+      <div className="forest-background-container">
+        <div 
+          className="forest-background"
+          style={{ 
+            transform: `translateY(${scrollY * 0.4}px) scale(${1 + scrollY * 0.0001})`
+          }}
+        ></div>
+        <div className="forest-overlay"></div>
+      </div>
+
+      {/* Floating Particles Overlay */}
+      <div className="particles-overlay">
+        {[...Array(15)].map((_, i) => (
+          <div 
+            key={i} 
+            className="particle-dot"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${15 + Math.random() * 10}s`
+            }}
+          ></div>
+        ))}
+      </div>
+
+      {/* Floating Leaves */}
+      <div className="floating-leaves-container">
+        {[...Array(6)].map((_, i) => (
+          <div 
+            key={i}
+            className="floating-leaf"
+            style={{
+              left: `${10 + i * 15}%`,
+              animationDelay: `${i * 0.8}s`,
+              animationDuration: `${10 + Math.random() * 5}s`
+            }}
+          >
+            <Leaf size={16 + Math.random() * 8} />
+          </div>
+        ))}
+      </div>
+
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-background">
-          <div className="hero-overlay"></div>
-        </div>
         <div className="hero-content">
           <div className="hero-badge">
             <Sparkles size={16} />
             <span>Transform Your Life, One Habit at a Time</span>
           </div>
+          
           <h1 className="hero-title">
             Build Better Habits,
             <br />
             <span className="gradient-text">Grow Your Future</span>
           </h1>
+          
           <p className="hero-description">
             RoutiQ helps you build better habits, watch your growth tree flourish, and achieve your goals 
-            with our intelligent habit tracking system. Every completed habit in RoutiQ brings you 
-            closer to the person you want to become.
+            with our intelligent habit tracking system. Every completed habit brings you closer to the person you want to become.
           </p>
+          
           <div className="hero-cta">
             <Link to="/register" className="cta-primary">
-              Get Started
+              Get Started Free
               <ArrowRight size={20} />
             </Link>
             <Link to="/login" className="cta-secondary">
               Sign In
             </Link>
           </div>
+          
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator">
+            <div className="scroll-mouse">
+              <div className="scroll-wheel"></div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="features-section">
+        <div className="section-overlay"></div>
         <div className="container">
           <div className="section-header">
             <h2>Everything You Need to Succeed</h2>
             <p>Powerful features designed to help you build lasting habits</p>
           </div>
-
+          
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">
@@ -63,8 +120,8 @@ function Landing() {
               </div>
               <h3>Visual Growth Tree</h3>
               <p>
-                Watch your RoutiQ tree grow as you complete habits. Flowers bloom when you 
-                achieve perfect days, creating a beautiful visual representation of your RoutiQ progress.
+                Watch your tree grow as you complete habits. Flowers bloom when you 
+                achieve perfect days, creating a beautiful visual representation of your progress.
               </p>
             </div>
 
@@ -74,7 +131,7 @@ function Landing() {
               </div>
               <h3>Smart Habit Tracking</h3>
               <p>
-                RoutiQ helps you break down complex habits into manageable sub-tasks. Track completion 
+                Break down complex habits into manageable sub-tasks. Track completion 
                 with a 0-3 scale and build consistency over time.
               </p>
             </div>
@@ -85,7 +142,7 @@ function Landing() {
               </div>
               <h3>Mood & Stress Tracking</h3>
               <p>
-                Understand how your habits affect your well-being with RoutiQ. Track mood and stress 
+                Understand how your habits affect your well-being. Track mood and stress 
                 levels to identify patterns and optimize your routine.
               </p>
             </div>
@@ -96,8 +153,8 @@ function Landing() {
               </div>
               <h3>Weekly Reports</h3>
               <p>
-                Get comprehensive insights with RoutiQ's beautiful charts. Compare weeks, analyze 
-                trends, and celebrate your RoutiQ progress with detailed analytics.
+                Get comprehensive insights with beautiful charts. Compare weeks, analyze 
+                trends, and celebrate your progress with detailed analytics.
               </p>
             </div>
 
@@ -107,8 +164,8 @@ function Landing() {
               </div>
               <h3>Daily Reminders</h3>
               <p>
-                Never miss a habit with RoutiQ's customizable reminders. Set your preferred time 
-                and receive gentle RoutiQ nudges to stay on track.
+                Never miss a habit with customizable reminders. Set your preferred time 
+                and receive gentle nudges to stay on track.
               </p>
             </div>
 
@@ -118,7 +175,7 @@ function Landing() {
               </div>
               <h3>Consistency Analysis</h3>
               <p>
-                Get intelligent feedback on your habits with RoutiQ. Our system identifies inconsistent 
+                Get intelligent feedback on your habits. Our system identifies inconsistent 
                 patterns and helps you get back on track with personalized insights.
               </p>
             </div>
@@ -128,12 +185,13 @@ function Landing() {
 
       {/* How It Works */}
       <section className="how-it-works">
+        <div className="section-overlay"></div>
         <div className="container">
           <div className="section-header">
             <h2>How RoutiQ Works</h2>
-            <p>Start your RoutiQ journey in three simple steps</p>
+            <p>Start your journey in three simple steps</p>
           </div>
-
+          
           <div className="steps">
             <div className="step">
               <div className="step-number">1</div>
@@ -167,6 +225,7 @@ function Landing() {
 
       {/* CTA Section */}
       <section className="cta-section">
+        <div className="section-overlay"></div>
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Transform Your Life?</h2>
@@ -181,6 +240,7 @@ function Landing() {
 
       {/* Footer */}
       <footer className="landing-footer">
+        <div className="section-overlay"></div>
         <div className="container">
           <div className="footer-content">
             <div className="footer-brand">
@@ -193,7 +253,7 @@ function Landing() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 RoutiQ. Built with care for your growth journey.</p>
+            <p>© 2024 RoutiQ. Built with care for your growth journey.</p>
           </div>
         </div>
       </footer>
@@ -202,4 +262,3 @@ function Landing() {
 }
 
 export default Landing;
-
