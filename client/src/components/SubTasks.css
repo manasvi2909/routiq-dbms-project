@@ -1,0 +1,211 @@
+.subtasks-container {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.subtasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.subtasks-header h3 {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.add-subtask-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(103, 125, 106, 0.2);
+  color: var(--color-accent-light);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.add-subtask-btn:hover {
+  background: rgba(103, 125, 106, 0.3);
+  border-color: var(--color-accent);
+}
+
+.add-subtask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(26, 54, 54, 0.3);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.subtask-input {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: rgba(26, 54, 54, 0.5);
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+}
+
+.subtask-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(103, 125, 106, 0.2);
+  background: rgba(26, 54, 54, 0.7);
+}
+
+.subtask-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.save-btn {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.save-btn:hover {
+  background: var(--color-accent-light);
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: rgba(64, 83, 76, 0.3);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.cancel-btn:hover {
+  background: rgba(64, 83, 76, 0.5);
+  color: var(--color-text-primary);
+}
+
+.subtasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(26, 54, 54, 0.2);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.subtask-item:hover {
+  background: rgba(26, 54, 54, 0.3);
+  border-color: var(--color-accent);
+}
+
+.subtask-item.completed {
+  opacity: 0.6;
+}
+
+.subtask-item.completed .subtask-name {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.subtask-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.subtask-checkbox:hover {
+  border-color: var(--color-accent);
+  background: rgba(103, 125, 106, 0.1);
+}
+
+.subtask-checkbox .checked {
+  color: var(--color-accent-light);
+}
+
+.subtask-item.completed .subtask-checkbox {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.subtask-name {
+  flex: 1;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+}
+
+.delete-subtask-btn {
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-subtask-btn:hover {
+  background: rgba(214, 189, 152, 0.1);
+  color: var(--color-accent-light);
+}
+
+.no-subtasks {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+}
+
+.subtasks-loading {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+}
+

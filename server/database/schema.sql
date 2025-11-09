@@ -1,0 +1,116 @@
+-- Habit Tracker Database Schema
+
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reminder_time TIME DEFAULT '09:00:00',
+    reminder_enabled BOOLEAN DEFAULT true
+);
+
+-- Habits table
+CREATE TABLE IF NOT EXISTS habits (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    -- Habit logging questions
+    when_specifically TEXT,
+    what_motivating TEXT,
+    what_hindering TEXT,
+    whom_tell TEXT,
+    who_inspires TEXT,
+    milestones TEXT,
+    treat_myself TEXT,
+    -- Consistency tracking
+    consecutive_days INTEGER DEFAULT 0,
+    total_completions INTEGER DEFAULT 0,
+    last_completed_at TIMESTAMP,
+    -- Inconsistency analysis
+    is_inconsistent BOOLEAN DEFAULT false,
+    continue_reason TEXT,
+    failure_analysis TEXT
+);
+
+-- Habit logs table (daily completions)
+CREATE TABLE IF NOT EXISTS habit_logs (
+    id SERIAL PRIMARY KEY,
+    habit_id INTEGER NOT NULL REFERENCES habits(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    log_date DATE NOT NULL,
+    completion_percentage INTEGER DEFAULT 0 CHECK (completion_percentage >= 0 AND completion_percentage <= 3),
+    mood VARCHAR(50),
+    stress_level INTEGER CHECK (stress_level >= 1 AND stress_level <= 5),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(habit_id, log_date)
+);
+
+-- Mood logs table (separate mood tracking)
+CREATE TABLE IF NOT EXISTS mood_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    log_date DATE NOT NULL,
+    mood VARCHAR(50) NOT NULL,
+    stress_level INTEGER CHECK (stress_level >= 1 AND stress_level <= 5),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, log_date)
+);
+
+-- Weekly reports table
+CREATE TABLE IF NOT EXISTS weekly_reports (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    week_start_date DATE NOT NULL,
+    week_end_date DATE NOT NULL,
+    total_habits INTEGER DEFAULT 0,
+    consistent_habits INTEGER DEFAULT 0,
+    inconsistent_habits INTEGER DEFAULT 0,
+    total_completions INTEGER DEFAULT 0,
+    average_mood VARCHAR(50),
+    average_stress DECIMAL(3,2),
+    report_data JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, week_start_date)
+);
+
+-- Sub-tasks table (sub-goals for habits)
+CREATE TABLE IF NOT EXISTS sub_tasks (
+    id SERIAL PRIMARY KEY,
+    habit_id INTEGER NOT NULL REFERENCES habits(id) ON DELETE CASCADE,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    is_completed BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    order_index INTEGER DEFAULT 0
+);
+
+-- Notifications/Reminders table
+CREATE TABLE IF NOT EXISTS notifications (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    habit_id INTEGER REFERENCES habits(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    notification_type VARCHAR(50) DEFAULT 'reminder',
+    is_read BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_habits_user_id ON habits(user_id);
+CREATE INDEX IF NOT EXISTS idx_habit_logs_user_id ON habit_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_habit_logs_habit_id ON habit_logs(habit_id);
+CREATE INDEX IF NOT EXISTS idx_habit_logs_date ON habit_logs(log_date);
+CREATE INDEX IF NOT EXISTS idx_mood_logs_user_id ON mood_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_mood_logs_date ON mood_logs(log_date);
+CREATE INDEX IF NOT EXISTS idx_weekly_reports_user_id ON weekly_reports(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_sub_tasks_habit_id ON sub_tasks(habit_id);
+

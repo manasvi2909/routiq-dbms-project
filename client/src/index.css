@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --color-eclipse: #1A3636;
+  --color-forest-roast: #40534C;
+  --color-matcha-brew: #677D6A;
+  --color-almond: #D6BD98;
+  --color-text-primary: #D6BD98;
+  --color-text-secondary: #677D6A;
+  --color-text-muted: #40534C;
+  --color-bg-primary: #1A3636;
+  --color-bg-secondary: #40534C;
+  --color-bg-card: rgba(64, 83, 76, 0.3);
+  --color-border: rgba(103, 125, 106, 0.2);
+  --color-accent: #677D6A;
+  --color-accent-light: #D6BD98;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+}
+
