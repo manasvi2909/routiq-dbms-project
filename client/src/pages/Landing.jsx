@@ -253,7 +253,7 @@ function Landing() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>© 2024 RoutiQ. Built with care for your growth journey.</p>
+            <p>© 2025 RoutiQ. Built with care for your growth journey.</p>
           </div>
         </div>
       </footer>
