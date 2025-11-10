@@ -353,7 +353,7 @@ function TreeModel({
         const leafY = clusterY + Math.sin(angle) * radius * 0.7;
         const leafSize = 6 + Math.random() * 4;
 
-                ctx.fillStyle = i % 2 === 0 ? colors.leaves : colors.leavesLight;
+        ctx.fillStyle = i % 2 === 0 ? colors.leaves : colors.leavesLight;
         ctx.beginPath();
         ctx.ellipse(leafX, leafY, leafSize, leafSize * 0.6, angle, 0, Math.PI * 2);
         ctx.fill();
@@ -486,12 +486,12 @@ function TreeModel({
   };
 
   const getGrowthStage = () => {
-    if (completionRate < 15) return { name: 'Seedling', emoji: '🌱' };
-    if (completionRate < 30) return { name: 'Sprouting', emoji: '🌿' };
-    if (completionRate < 50) return { name: 'Growing', emoji: '🌳' };
-    if (completionRate < 70) return { name: 'Thriving', emoji: '🌲' };
-    if (completionRate < 90) return { name: 'Flourishing', emoji: '🌴' };
-    return { name: 'Blooming', emoji: '🌸' };
+    if (completionRate < 15) return { name: 'Seedling'};
+    if (completionRate < 30) return { name: 'Sprouting'};
+    if (completionRate < 50) return { name: 'Growing'};
+    if (completionRate < 70) return { name: 'Thriving'};
+    if (completionRate < 90) return { name: 'Flourishing'};
+    return { name: 'Blooming'};
   };
 
   const stage = getGrowthStage();
@@ -569,12 +569,12 @@ function TreeModel({
 
         {/* Motivational message */}
         <div className="tree-message">
-          {completionRate < 15 && "🌱 Your journey begins! Plant the seeds of success."}
-          {completionRate >= 15 && completionRate < 30 && "🌿 Great start! Your habits are taking root."}
-          {completionRate >= 30 && completionRate < 50 && "🌳 Keep going! Your tree is growing stronger."}
-          {completionRate >= 50 && completionRate < 70 && "🌲 Excellent progress! Your dedication shows."}
-          {completionRate >= 70 && completionRate < 90 && "🌴 Amazing! Your habits are flourishing."}
-          {completionRate >= 90 && "🌸 Outstanding! You've achieved greatness!"}
+          {completionRate < 15 && "Your journey begins! Plant the seeds of success."}
+          {completionRate >= 15 && completionRate < 30 && "Great start! Your habits are taking root."}
+          {completionRate >= 30 && completionRate < 50 && "Keep going! Your tree is growing stronger."}
+          {completionRate >= 50 && completionRate < 70 && "Excellent progress! Your dedication shows."}
+          {completionRate >= 70 && completionRate < 90 && "Amazing! Your habits are flourishing."}
+          {completionRate >= 90 && "Outstanding! You've achieved greatness!"}
         </div>
       </div>
     </div>
